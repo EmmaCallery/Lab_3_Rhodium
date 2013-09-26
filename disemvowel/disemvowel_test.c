@@ -13,6 +13,7 @@ void test_no_vowels(void) {
   assert_string_equal("pqrst", disemvowel("pqrst"));
 }
 
+
 void test_only_vowels(void) {
   assert_string_equal("", disemvowel("aeiouAEIOUOIEAuoiea"));
 }
