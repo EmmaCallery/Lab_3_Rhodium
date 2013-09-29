@@ -5,7 +5,7 @@
 
 int is_vowel( char c){
   int result;
-  if ( c == 'A' || c == 'a' || c == 'E' || c == 'e' || c == 'I' ||  c == 'i' ||  c == 'O' ||  c == 'o' ||  c == 'U' ||  c == 'u'){
+  if ( c == "A" || c == "a" || c == "E" || c == "e" || c == "I" ||  c == "i" ||  c == "O" ||  c == "o" ||  c == "U" ||  c == "u"){
     result = 1;
   }
   else { 
@@ -37,7 +37,6 @@ char* disemvowel(char* str) {
     index += 1;
   }
   new_string[index2 + 1] = '\0';
-  
   return new_string;
 }
 
