@@ -1,58 +1,65 @@
-#include <stdarg.h>
-#include <setjmp.h>
 #include <stdlib.h>
-#include <stdio.h>
-
 #include "mergesort.h"
 
-void printArr(int size, int A[]){
-  int i;
-  for(i=0;i<size;i++){
-    printf("%d", A[i]);
-  }
+
+
+int needsSorting(int rangeSize) {
+  return rangeSize >= 2;
 }
 
-void topDownMerge(int A[], int start, int middle, int end, int B[]){
-  int x = start;
-  int y = middle;
-  int z = start;
+void mergeRanges(int values[], int startIndex, int midPoint, int endIndex) {
+  int rangeSize = endIndex - startIndex;
+  int* destination = calloc(rangeSize, sizeof(int));
+  int firstIndex = start;
+  int secondIndex = midPoint;
+  int copyIndex = 0;
   
-  while (z < end){
-    if (x < middle && ( y >= end || A[x] <= A[y])){
-      B[z] = A[x];
-      x += 1;
+  while(firstIndex < midPoint && secondIndex < endIndex) {
+    if(values[firstIndex] < values[secondIndex]) {
+      destination[copyIndex] = values[firstIndex];
+      firstIndex++;
+    } else {
+      destination[copyIndex] = values[secondIndex];
+      secondIndex++;
     }
-    else{
-      B[z] = A[y];
-      y += 1;
-    }
-    z = z + 1;
+    copyIndex++;
+  }
+
+  while(firstIndex < midPoint) {
+    destination[copyIndex] = values[firstIndex];
+    copyIndex++;
+    firstIndex++;
+  }
+
+  while(secondIndex < endIndex) {
+    destination[copyIndex] = values[secondIndex];
+    copyIndex++;
+    secondIndex++;
+  }
+
+  int i;
+  for(i=0; i < rangeSize; i++) {
+    values[i + startIndex] = destination[i];
+  }
+
+  free(destination);
+}
+
+void mergesortRange(int values[], int startIndex, int endIndex) {
+  int rangeSize = endIndex - startIndex;
+  if(needsSorting(rangeSize)) {
+    int midPoint = (startIndex + endIndex)/2;
+    mergesortRange(values, startIndex, midPoint);
+    mergesortRange(values, midPoint, endIndex);
+    mergeRanges(values, startIndex, midPoint, endIndex);
   }
 }
 
-void copyArray (int A[], int B[], int start, int end){
-  int index = start;
-  while( index <= end ){
-    A[index] = B[index];
-    index += 1;
-  }
+void mergesort(int size, int values[]) {
+  mergesortRange(values, 0, size);
 }
 
-void splitMerge(int A[], int start, int end, int B[]){
-  if ((end - start) >= 2){
-    int middle = (end + start) / 2;
-    splitMerge(A, start, middle, B);
-    printf("HEYYYYYYYYYYYYYYYYYYYY\n");
-    splitMerge(A, middle, end, B);
-    topDownMerge(A, start, middle, end, B);
-    //B is the compleat sorted array
-    copyArray(A, B, start, end);
-  }  
-}
 
-void mergesort(int size, int values[]){
-  int* working = malloc(size * sizeof(int));
-  splitMerge(values, 0, size-1, working);
-  free(working);
-  printArr(size, values);
-}
+
+
+
