@@ -10,7 +10,7 @@ int needsSorting(int rangeSize) {
 void mergeRanges(int values[], int startIndex, int midPoint, int endIndex) {
   int rangeSize = endIndex - startIndex;
   int* destination = calloc(rangeSize, sizeof(int));
-  int firstIndex = start;
+  int firstIndex = startIndex;
   int secondIndex = midPoint;
   int copyIndex = 0;
   
