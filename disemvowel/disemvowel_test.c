@@ -1,31 +1,49 @@
 #include <stdarg.h>
 #include <setjmp.h>
 #include <stdlib.h>
+#include<stdio.h>
+
 
 #include "../include/cmockery.h"
 #include "disemvowel.h"
 
 void test_empty_str(void) {
-  assert_string_equal("", disemvowel(""));
+  char* test = disemvowel("");
+  printf("\nEMPTY STRING\n");
+  printf(test);
+  assert_string_equal("", test);
+  free(test);
 }
 
 void test_no_vowels(void) {
-  assert_string_equal("pqrst", disemvowel("pqrst"));
+  char* test = disemvowel("pqrst");
+  printf("\nNO VOWELS\n");
+  printf("Test=%s",test);
+  assert_string_equal("pqrst",test);
+  free(test);
 }
 
 
 void test_only_vowels(void) {
-  assert_string_equal("", disemvowel("aeiouAEIOUOIEAuoiea"));
+  char* test = disemvowel("aeiouAEIOUOIEAuoiea");
+  printf("ONLY VOWELS!\n");
+  printf(test);
+  assert_string_equal("", test);
+  free(test);
 }
 
 void test_my_name(void) {
-  assert_string_equal("Nchls Frtg McPh", 
-		      disemvowel("Nicholas Freitag McPhee"));
+  char* test = disemvowel("Nicholas Freitag McPhee");
+  printf("\nTEST MY NAME\n");
+  printf(test);  
+  assert_string_equal("Nchls Frtg McPh",test);
+  free(test);
 }
 
 void test_punctuation(void) {
-  assert_string_equal("n (nxplnd) lphnt!", 
-		      disemvowel("An (Unexplained) Elephant!"));
+  char* test= disemvowel("An (Unexplained) Elephant!");
+  assert_string_equal("n (nxplnd) lphnt!",test);
+  free(test);
 }
 
 void test_long_string(void) {
@@ -42,9 +60,9 @@ void test_long_string(void) {
     str[i] = 'a';
   }
   str[size-1] = '\0';
-  
-  assert_string_equal("xyz", disemvowel(str));
-
+  char* test = disemvowel(str);
+  assert_string_equal("xyz", test);
+  free(test);
   free(str);
 }
 
